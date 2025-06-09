@@ -35,19 +35,19 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Telefone',
-      details: ['+351 210 123 456', '+351 918 765 432'],
-      action: 'tel:+351210123456',
+      details: ['+351 913 823 499'],
+      action: 'tel:+351913823499',
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@jpcrodrigues.pt', 'comercial@jpcrodrigues.pt'],
-      action: 'mailto:info@jpcrodrigues.pt',
+      details: ['geral@jpcrodrigues.pt'],
+      action: 'mailto:geral@jpcrodrigues.pt',
     },
     {
       icon: MapPin,
       title: 'Morada',
-      details: ['Rua da Construção, 123', '1200-100 Lisboa, Portugal'],
+      details: ['Estrada da vitória nº63, Funchal, Portugal'],
       action: 'https://maps.google.com',
     },
     {
@@ -241,15 +241,21 @@ const Contact = () => {
             {/* Map and Additional Info */}
             <div className="space-y-8">
               {/* Map Placeholder */}
-              <div className="bg-gray-200 rounded-xl overflow-hidden">
-                <div className="aspect-w-16 aspect-h-12 h-64 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                    <p className="text-blue-900 font-semibold">Localização da JPC Rodrigues</p>
-                    <p className="text-blue-700">Lisboa, Portugal</p>
-                  </div>
+            <div className="bg-gray-200 rounded-xl overflow-hidden">
+                <div className="aspect-w-16 aspect-h-12 h-64">
+                  <iframe
+                    title="Localização da JPC Rodrigues - Funchal"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1646.1084096805675!2d-16.96439778325571!3d32.6509918727009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc605f752e138c8b%3A0x6a9ee7992313a68d!2sEstr.%20da%20Vit%C3%B3ria%2C%20Funchal!5e0!3m2!1spt-PT!2spt!4v1686322929000!5m2!1spt-PT!2spt"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
                 </div>
               </div>
+
+
 
               {/* Quick Contact */}
               <div className="bg-blue-600 p-8 rounded-xl text-white">
@@ -265,17 +271,17 @@ const Contact = () => {
                     <Phone className="h-6 w-6" />
                     <div>
                       <p className="font-semibold">Chamada Direta</p>
-                      <p className="text-blue-200">+351 210 123 456</p>
+                      <p className="text-blue-200">+351 913 823 499</p>
                     </div>
                   </a>
                   <a
-                    href="mailto:info@jpcrodrigues.pt"
+                    href="mailto:geral@jpcrodrigues.pt"
                     className="flex items-center space-x-3 bg-blue-700 p-4 rounded-lg hover:bg-blue-800 transition-colors"
                   >
                     <Mail className="h-6 w-6" />
                     <div>
                       <p className="font-semibold">Email Direto</p>
-                      <p className="text-blue-200">info@jpcrodrigues.pt</p>
+                      <p className="text-blue-200">geral@jpcrodrigues.pt</p>
                     </div>
                   </a>
                 </div>

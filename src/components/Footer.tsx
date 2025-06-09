@@ -16,7 +16,7 @@ const Footer = () => {
               <span className="text-xl font-bold">JPC Rodrigues</span>
             </div>
             <p className="text-blue-200 mb-4">
-              Especialistas em corte e furação de betão com mais de 15 anos de experiência.
+              Especialistas em corte e furação de betão com mais de 8 anos de experiência.
             </p>
             <div className="flex space-x-4">
               <div className="bg-blue-800 p-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
@@ -46,15 +46,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-blue-300" />
-                <span className="text-blue-200">+351 210 123 456</span>
+                <span className="text-blue-200">+351 913 823 499</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-blue-300" />
-                <span className="text-blue-200">info@jpcrodrigues.pt</span>
+                <span className="text-blue-200">geral@jpcrodrigues.pt</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-blue-300" />
-                <span className="text-blue-200">Lisboa, Portugal</span>
+                <span className="text-blue-200">Estrada da vitória nº63, Funchal, Portugal</span>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ const Footer = () => {
 
         <div className="border-t border-blue-800 mt-8 pt-8 text-center">
           <p className="text-blue-200">
-            © 2024 JPC Rodrigues. Todos os direitos reservados.
+            © 2025 JPC Rodrigues. Todos os direitos reservados.
           </p>
         </div>
       </div>

@@ -1,61 +1,50 @@
-import React from 'react';
-import { Drill, Hammer, Shield, Clock, Users, Award, ArrowRight, CheckCircle } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Drill, Hammer, Shield, CheckCircle, Award, ArrowRight } from 'lucide-react';
+
+const iconMap = {
+  Drill,
+  Hammer,
+  Shield,
+};
 
 const Services = () => {
-  const mainServices = [
-    {
-      icon: Drill,
-      title: 'Corte de Betão',
-      description: 'Corte preciso e limpo em betão armado com equipamentos profissionais de última geração.',
-      features: [
-        'Corte com disco diamantado',
-        'Espessuras até 80cm',
-        'Corte húmido e seco',
-        'Acabamento perfeito',
-      ],
-      image: 'https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      icon: Hammer,
-      title: 'Furação Profissional',
-      description: 'Furação de alta precisão para instalações técnicas, ancoragens e passagens.',
-      features: [
-        'Furação até 500mm de diâmetro',
-        'Profundidade até 3 metros',
-        'Sistemas de aspiração',
-        'Controlo de vibração',
-      ],
-      image: 'https://images.pexels.com/photos/1388944/pexels-photo-1388944.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      icon: Shield,
-      title: 'Demolição Controlada',
-      description: 'Demolição seletiva com técnicas avançadas, preservando estruturas adjacentes.',
-      features: [
-        'Demolição hidrodemolição',
-        'Remoção seletiva',
-        'Técnicas não destrutivas',
-        'Controlo de poeira',
-      ],
-      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-  ];
+  const [mainServices, setMainServices] = useState([]);
+  const [additionalServices, setAdditionalServices] = useState([]);
+  const [certifications, setCertifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const additionalServices = [
-    'Abertura de vãos em paredes e lajes',
-    'Regularização de superfícies',
-    'Furação para climatização',
-    'Instalação de sistemas de ancoragem',
-    'Corte de juntas de dilatação',
-    'Reparação de estruturas de betão',
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Ajusta as URLs para as tuas rotas reais da API
+        const [mainRes, additionalRes, certRes] = await Promise.all([
+          fetch('http://localhost:3000/api/servicos/main'),         // retorna os serviços principais (category='principal')
+          fetch('http://localhost:3000/api/servicos/additional'),   // retorna os serviços complementares (category='complementar')
+          fetch('http://localhost:3000/api/servicos/certifications'), // retorna certificações
+        ]);
 
-  const certifications = [
-    { name: 'ISO 9001:2015', description: 'Sistema de Gestão da Qualidade' },
-    { name: 'ISO 14001:2015', description: 'Sistema de Gestão Ambiental' },
-    { name: 'OHSAS 18001', description: 'Segurança e Saúde no Trabalho' },
-    { name: 'Alvará 4ª Classe', description: 'Obras Especializadas' },
-  ];
+        if (!mainRes.ok || !additionalRes.ok || !certRes.ok) {
+          throw new Error('Erro ao carregar dados');
+        }
+
+        const mainData = await mainRes.json();
+        const additionalData = await additionalRes.json();
+        const certData = await certRes.json();
+
+        setMainServices(mainData);
+        setAdditionalServices(additionalData);
+        setCertifications(certData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p className="text-center py-10">Carregando serviços...</p>;
 
   return (
     <div className="space-y-0">
@@ -87,39 +76,42 @@ const Services = () => {
           </div>
 
           <div className="space-y-16">
-            {mainServices.map((service, index) => (
-              <div
-                key={index}
-                className={`flex flex-col lg:flex-row items-center gap-12 ${
-                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                }`}
-              >
-                <div className="flex-1">
-                  <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                    <service.icon className="h-8 w-8 text-white" />
+            {mainServices.map((service, index) => {
+              const Icon = iconMap[service.icon] || Drill; // Ícone padrão se não encontrar
+              return (
+                <div
+                  key={service.id}
+                  className={`flex flex-col lg:flex-row items-center gap-12 ${
+                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                  }`}
+                >
+                  <div className="flex-1">
+                    <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                      <Icon className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-gray-900 mb-4">{service.title}</h3>
+                    <p className="text-lg text-gray-600 mb-6">{service.description}</p>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {(service.features || []).map((feature, i) => (
+                        <li key={i} className="flex items-center space-x-3">
+                          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-4">{service.title}</h3>
-                  <p className="text-lg text-gray-600 mb-6">{service.description}</p>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center space-x-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-                        <span className="text-gray-700">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex-1">
-                  <div className="aspect-w-16 aspect-h-12 rounded-xl overflow-hidden shadow-lg">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-80 object-cover"
-                    />
+                  <div className="flex-1">
+                    <div className="aspect-w-16 aspect-h-12 rounded-xl overflow-hidden shadow-lg">
+                      <img
+                        src={service.image_url || service.image} // Ajusta o nome do campo conforme o que o backend envia
+                        alt={service.title}
+                        className="w-full h-80 object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -143,7 +135,7 @@ const Services = () => {
               >
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-6 w-6 text-blue-600 flex-shrink-0" />
-                  <span className="text-gray-900 font-medium">{service}</span>
+                  <span className="text-gray-900 font-medium">{typeof service === 'string' ? service : service.title}</span>
                 </div>
               </div>
             ))}
@@ -163,9 +155,9 @@ const Services = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {certifications.map((cert, index) => (
+            {certifications.map((cert) => (
               <div
-                key={index}
+                key={cert.id}
                 className="bg-blue-50 p-6 rounded-xl text-center hover:bg-blue-100 transition-colors"
               >
                 <Award className="h-12 w-12 text-blue-600 mx-auto mb-4" />
@@ -195,10 +187,11 @@ const Services = () => {
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="/portfolio"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-colors inline-flex items-center justify-center"
+              href="/sobre-nos"
+              className="border border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-colors inline-flex items-center justify-center group"
             >
-              Ver Trabalhos
+              Saiba Mais
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
         </div>
