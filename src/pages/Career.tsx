@@ -8,9 +8,37 @@ const Career = () => {
     email: '',
     phone: '',
     message: '',
-    jobId: 0,
+    jobId: 0, // Valor inicial para jobId
   });
 
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvError, setCvError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+
+  // Lida com a mudança do input de ficheiro (CV)
+  const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const maxSize = 10 * 1024 * 1024; // 10MB (Ajuste para corresponder ao backend se necessário)
+      if (file.size > maxSize) {
+        setCvError(`O ficheiro CV é demasiado grande. O tamanho máximo permitido é ${maxSize / (1024 * 1024)}MB.`);
+        setCvFile(null);
+        e.target.value = ''; // Limpa o input para permitir uma nova seleção
+      } else if (file.type !== 'application/pdf') {
+        setCvError('Apenas ficheiros PDF são permitidos.');
+        setCvFile(null);
+        e.target.value = '';
+      } else {
+        setCvError(null); // Limpa qualquer erro anterior
+        setCvFile(file);
+      }
+    } else {
+      setCvError(null);
+      setCvFile(null);
+    }
+  };
+
+  // Dados das vagas de emprego
   const jobs = [
     {
       id: 1,
@@ -134,6 +162,7 @@ const Career = () => {
     },
   ];
 
+  // Dados dos benefícios da empresa
   const benefits = [
     {
       icon: Award,
@@ -152,6 +181,7 @@ const Career = () => {
     },
   ];
 
+  // Lida com a mudança nos campos de texto do formulário
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setApplicationData({
       ...applicationData,
@@ -159,17 +189,60 @@ const Career = () => {
     });
   };
 
+  // Define a vaga selecionada e preenche o jobId no estado da aplicação
   const handleJobApplication = (jobId: number) => {
     setSelectedJob(jobId);
     setApplicationData({ ...applicationData, jobId });
   };
 
-  const handleSubmitApplication = (e: React.FormEvent) => {
+  // Lida com a submissão do formulário de candidatura
+  const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the application data to your backend
-    alert('Candidatura enviada com sucesso! Entraremos em contacto consigo brevemente.');
-    setSelectedJob(null);
-    setApplicationData({ name: '', email: '', phone: '', message: '', jobId: 0 });
+
+    if (cvError) {
+      alert(cvError);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', applicationData.name);
+    formData.append('email', applicationData.email);
+    formData.append('phone', applicationData.phone);
+    formData.append('message', applicationData.message);
+    formData.append('jobId', applicationData.jobId.toString());
+
+    if (cvFile) {
+      formData.append('cv', cvFile);
+    }
+
+    // --- MOVEI O LOG PARA AQUI ---
+    console.log('Conteúdo do FormData ANTES do envio:');
+    for (let pair of formData.entries()) {
+        console.log(pair[0]+ ': ' + pair[1]);
+    }
+    // --- FIM DO LOG MOVIDO ---
+    console.log(formData);
+    setStatus('Enviando...');
+
+    try {
+      const response = await fetch('http://localhost:3000/api/candidatura/enviar', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log(formData);
+      console.log('Resposta do Backend (objeto):', response); // Melhor renomear para evitar confusão
+      // ... restante do código para lidar com a resposta ...
+
+      if (response.ok) {
+        setStatus('✅ Sua mensagem foi enviada com sucesso! Entraremos em contacto o mais breve possível.');
+      } else {
+        setStatus('❌ Ocorreu um erro ao enviar a mensagem. Tente novamente mais tarde.');
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      alert('Não foi possível conectar ao servidor. Tente novamente mais tarde.');
+    }
   };
 
   return (
@@ -379,13 +452,17 @@ const Career = () => {
                     accept=".pdf"
                     className="hidden"
                     id="cv-upload"
+                    onChange={handleCvChange}
                   />
                   <label
                     htmlFor="cv-upload"
                     className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors"
                   >
-                    Escolher Ficheiro
+                    {cvFile ? cvFile.name : 'Escolher Ficheiro'}
                   </label>
+                  {cvError && (
+                    <p className="text-red-500 text-sm mt-2">{cvError}</p>
+                  )}
                 </div>
 
                 <div className="flex gap-4">
@@ -403,6 +480,12 @@ const Career = () => {
                     <Send className="mr-2 h-4 w-4" />
                     Enviar Candidatura
                   </button>
+                  {/* Status de envio */}
+                  {status && (
+                    <div className={`text-center mt-4 ${status.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
+                    {status}
+                  </div>            
+                  )}
                 </div>
               </form>
             </div>

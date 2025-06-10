@@ -10,7 +10,7 @@ const Contact = () => {
     message: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<string | null>(null); 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -21,15 +21,38 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    alert('Mensagem enviada com sucesso! Entraremos em contacto consigo brevemente.');
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    setIsSubmitting(false);
+
+
+    // Agora inclui a validação do subject
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setStatus('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    setStatus('Enviando...');
+
+    try {
+      const response = await fetch('http://localhost:3000/api/contacto/enviar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // subject já incluído no formData
+      });
+
+      if (response.ok) {
+        setStatus('✅ Sua mensagem foi enviada com sucesso! Entraremos em contacto o mais breve possível.');
+      } else {
+        setStatus('❌ Ocorreu um erro ao enviar a mensagem. Tente novamente mais tarde.');
+      }
+
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (error) {
+      setStatus('❌ Ocorreu um erro ao enviar a mensagem. Tente novamente mais tarde.');
+    }
   };
+
+
 
   const contactInfo = [
     {
@@ -217,23 +240,19 @@ const Contact = () => {
                       placeholder="Descreva o seu projeto ou dúvida em detalhe..."
                     />
                   </div>
-
+                  
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all flex items-center justify-center ${
-                      isSubmitting
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-600 hover:bg-blue-700 text-white'
-                    }`}
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
                   >
-                    {isSubmitting ? (
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    ) : (
-                      <Send className="mr-2 h-5 w-5" />
-                    )}
-                    {isSubmitting ? 'A enviar...' : 'Enviar Mensagem'}
+                    Enviar Mensagem
                   </button>
+                  {/* Status de envio */}
+                  {status && (
+                    <div className={`text-center mt-4 ${status.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
+                    {status}
+                  </div>            
+                  )}
                 </form>
               </div>
             </div>
