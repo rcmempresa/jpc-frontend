@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Drill, Facebook } from 'lucide-react';
+import { Menu, X, Facebook, Phone, MapPin } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,119 +15,114 @@ const Header = () => {
   ];
 
   const facebookUrl = 'https://www.facebook.com/profile.php?id=100064182873984';
+  const phoneNumber = '+351913823499';
+  const address = 'Estrada da vitória nº63, Funchal';
+  const googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Estrada+da+vitória+nº63,+Funchal';
 
   return (
-    <header className="bg-white shadow sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="hidden md:flex justify-between items-center py-2 px-6 text-sm bg-blue-700 text-white">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1">📍 Estrada da vitória nº63, Funchal</span>
-          <span className="flex items-center gap-1">📞 +351 913 823 499</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <select className="bg-transparent border-none outline-none cursor-pointer text-white">
-            <option>Português</option>
-          </select>
-          <a
-            href={facebookUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-300 transition"
-          >
-            <Facebook size={20} />
-          </a>
-        </div>
-      </div>
+    <header className="bg-white shadow-lg sticky top-0 z-50 transition-all duration-300 ease-in-out font-sans">
+      
+      <div className="max-w-full px-4 sm:px-6 lg:px-16 py-1 flex justify-between items-center">
+        <Link to="/" className="flex items-center">
+          <img src="jpc_logotipo_final.png" alt="Logotipo JPC Rodrigues" className="h-32 w-auto object-contain" />
+        </Link>
 
-      {/* Main Navigation */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-blue-700 p-2 rounded-full shadow">
-              <Drill className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-blue-900 tracking-tight">
-              JPC Rodrigues
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === item.href
-                    ? 'text-blue-700 bg-blue-100 shadow-inner'
-                    : 'text-gray-700 hover:text-blue-700 hover:bg-blue-50'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Botão Orçamento */}
-          <div className="hidden lg:flex items-center">
+        {/* Desktop Navigation - Links discretos com hover elegante */}
+        <nav className="hidden lg:flex items-center gap-4">
+          {navigation.map((item) => (
             <Link
-              to="/contacto"
-              className="ml-4 px-4 py-2 rounded-full bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 transition"
+              key={item.name}
+              to={item.href}
+              className={`relative px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ease-in-out
+                ${
+                  location.pathname === item.href
+                    ? 'text-blue-700 bg-blue-50'
+                    : 'text-gray-700 hover:text-blue-700 hover:bg-gray-100'
+                }
+              `}
             >
-              Pedir Orçamento
+              {item.name}
             </Link>
-          </div>
+          ))}
+        </nav>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-full text-gray-700 hover:text-blue-700 hover:bg-blue-100 transition"
+        {/* Botão Orçamento - Destaque com fundo azul */}
+        <div className="hidden lg:flex items-center">
+          <Link
+            to="/contacto"
+            className="ml-6 px-6 py-2 rounded-full bg-blue-600 text-white font-semibold text-base shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300 ease-in-out"
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            Pedir Orçamento
+          </Link>
         </div>
+
+        {/* Mobile menu button - Ícone escuro, fundo transparente */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+          aria-label="Abrir/Fechar menu móvel"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Fundo branco, texto escuro */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white shadow-md border-t border-gray-200 py-3">
+        <div className="lg:hidden bg-white shadow-md border-t border-gray-100 py-4 transition-all duration-300 ease-in-out origin-top animate-slideDown">
           <nav className="flex flex-col gap-2 px-4">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`px-3 py-2 rounded-md text-base font-medium transition ${
-                  location.pathname === item.href
-                    ? 'text-blue-700 bg-blue-100'
-                    : 'text-gray-700 hover:text-blue-700 hover:bg-blue-50'
-                }`}
+                className={`block px-4 py-2 rounded-md text-base font-medium transition-colors duration-200
+                  ${
+                    location.pathname === item.href
+                      ? 'text-blue-700 bg-blue-50'
+                      : 'text-gray-700 hover:text-blue-700 hover:bg-gray-100'
+                  }`}
               >
                 {item.name}
               </Link>
             ))}
 
-            {/* Botão Orçamento no Mobile */}
+            {/* Botão Orçamento no Mobile - Fundo azul */}
             <Link
               to="/contacto"
               onClick={() => setIsMenuOpen(false)}
-              className="mt-2 px-4 py-2 rounded-full bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 transition"
+              className="mt-4 w-full text-center px-6 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition-colors duration-200"
             >
               Pedir Orçamento
             </Link>
 
-            {/* Botão Facebook no Mobile */}
-            <a
-              href={facebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMenuOpen(false)}
-              className="mt-3 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition"
-            >
-              <Facebook className="h-5 w-5" />
-              Facebook
-            </a>
+            {/* Contactos e Redes Sociais no Mobile */}
+            <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col gap-3 text-gray-700">
+                <a
+                    href={`tel:${phoneNumber}`}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 hover:text-blue-600 px-4 py-2 rounded-md transition-colors"
+                >
+                    <Phone size={16} className="text-gray-400" /> {phoneNumber}
+                </a>
+                <a
+                    href={googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 hover:text-blue-600 px-4 py-2 rounded-md transition-colors"
+                >
+                    <MapPin size={16} className="text-gray-400" /> {address}
+                </a>
+                <a
+                    href={facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 hover:text-blue-600 px-4 py-2 rounded-md transition-colors"
+                >
+                    <Facebook size={18} className="text-gray-400" /> Visite nosso Facebook
+                </a>
+            </div>
           </nav>
         </div>
       )}
