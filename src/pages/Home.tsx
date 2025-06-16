@@ -870,7 +870,7 @@ const rentalMachines = [
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center md:text-left">Onde Estamos</h2>
       <div className="aspect-w-16 aspect-h-9 w-full rounded-lg overflow-hidden shadow-lg"> {/* Removed max-w-4xl and mx-auto as it's now in a grid column */}
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15024.499691970222!2d-16.80416975!3d32.65868855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdcd23a31e847775%3A0x600f6c24387d8d21!2sGaula%2C%20Portugal!5e0!3m2!1sen!2spt!4v1718138760000!5m2!1sen!2spt"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3090.8757049405626!2d-16.92097032349079!3d32.65089337365691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xcd62594a1b0660f%3A0xc34a64d1f56a31c!2sEstrada%20da%20Vit%C3%B3ria%2063%2C%209000-096%20Funchal!5e0!3m2!1spt-PT!2spt!4v1700000000000!5m2!1spt-PT!2spt"
           width="100%"
           height="450"
           style={{ border: 0 }}
