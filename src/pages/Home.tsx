@@ -240,7 +240,7 @@ const slideInTop = {
 const rentalMachines = [
   {
     title: 'Geradora Trifásica SDMO R44C3 – 65 A',
-    description: 'Especificações técnicas: Mitsubishi S4L2 , Potência: 44 kVa / 35 kW,  Motor diesel Resfriado a água Tensão: 400/230 V Frequência: 50 H Dimensões: Comprimento: 2,2 m Largura: 1  Altura: 1,53 ',
+    description: 'Oferece uma potência robusta de 44 kVA (35 kW), com uma tensão de saída de 400/230 V e frequência de 50 Hz.As suas dimensões são de 2,2 metros de comprimento, 1 metro de largura e 1,53 metros de altura. ',
     image: '/geradora_trifacica.png',
   }
 ];
@@ -376,7 +376,7 @@ const rentalMachines = [
             </motion.p>
             <motion.p variants={itemFadeIn} className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-blue-500" />
-              <span>Telefone:</span> <a href="tel:+351912345678" className="font-semibold text-blue-700">+351 912 345 678</a>
+              <span>Telefone:</span> <a href="tel:+351913823499" className="font-semibold text-blue-700">+351 913823499</a>
             </motion.p>
           </motion.div>
         </motion.div>
@@ -454,7 +454,7 @@ const rentalMachines = [
               {[
                 "xpxxDBrKJZA", // Substitua pelo ID real do seu vídeo 1
                 "QN94myUflBc", // Substitua pelo ID real do seu vídeo 2
-                "ViLAQOFa2sc", // Substitua pelo ID real do seu vídeo 3
+                "hV_n52ehTUQ", // Substitua pelo ID real do seu vídeo 3
                 "URCU_7LEACo", // Substitua pelo ID real do seu vídeo 4
                 "fHTaIUiKDGQ", // Substitua pelo ID real do seu vídeo 5
                 "vGYitr6hZQs", // Substitua pelo ID real do seu vídeo 6
@@ -496,7 +496,7 @@ const rentalMachines = [
           <motion.div variants={itemFadeIn} className="rounded-lg overflow-hidden shadow-lg bg-white"> {/* Fundo do cartão mantido em branco para contraste */}
             <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 Aspect Ratio */ }}>
               <iframe
-                src="https://www.youtube.com/embed/ID_DO_SEU_VIDEO_AQUI" // **SUBSTITUA PELO ID REAL DO SEU VÍDEO DO YOUTUBE**
+                src="corte_projeto.mp4" // **SUBSTITUA PELO ID REAL DO SEU VÍDEO DO YOUTUBE**
                 title="Vídeo: Corte de Lajes de Betão - Projeto JPC Rodrigues"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -519,7 +519,7 @@ const rentalMachines = [
             <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 Aspect Ratio */ }}>
               {/* Se for vídeo: */}
               <iframe
-                src="https://www.youtube.com/embed/OUTRO_ID_DE_VIDEO" // **SUBSTITUA PELO ID REAL DO SEU VÍDEO DO YOUTUBE**
+                src="https://www.youtube.com/embed/qDpRDDqWFNE"
                 title="Vídeo: Furação de Precisão para Instalações"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -531,9 +531,9 @@ const rentalMachines = [
               {/* <img src="/caminho/para/sua/imagem-furacao.jpg" alt="Furação de Precisão" className="absolute top-0 left-0 w-full h-full object-cover" /> */}
             </div>
             <div className="p-4">
-              <h3 className="font-semibold text-gray-800 text-xl">Furação Milimétrica em Estruturas de Pontes</h3>
+              <h3 className="font-semibold text-gray-800 text-xl">Furacão para substituição de parafusos de fixação dos cabeços de atraco de navios</h3>
               <p className="text-gray-600 mt-2">
-                Realizamos furações de alta precisão para a instalação de sensores em pilares de pontes, um projeto que demandou expertise em análise estrutural e equipamentos de última geração para garantir a integridade da obra.
+               Serviço especializado de furação para a substituição segura e eficaz dos parafusos de fixação em cabeços de atracação de navios. Garantimos a integridade estrutural e a segurança das operações portuárias.
               </p>
             </div>
           </motion.div>
@@ -543,7 +543,7 @@ const rentalMachines = [
             <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 Aspect Ratio */ }}>
               {/* Se for vídeo: */}
               <iframe
-                src="https://www.youtube.com/embed/MAIS_UM_ID_DE_VIDEO" // **SUBSTITUA PELO ID REAL DO SEU VÍDEO DO YOUTUBE**
+                src="demolicao_controlada_projeto.mp4" // **SUBSTITUA PELO ID REAL DO SEU VÍDEO DO YOUTUBE**
                 title="Vídeo: Demolição Controlada de Antigo Armazém"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -555,9 +555,9 @@ const rentalMachines = [
               {/* <img src="/caminho/para/sua/imagem-demolicao.jpg" alt="Demolição Controlada" className="absolute top-0 left-0 w-full h-full object-cover" /> */}
             </div>
             <div className="p-4">
-              <h3 className="font-semibold text-gray-800 text-xl">Demolição Segura de Antigo Edifício Industrial</h3>
+              <h3 className="font-semibold text-gray-800 text-xl">Demolição Segura na Choupana Hills</h3>
               <p className="text-gray-600 mt-2">
-                Executamos a demolição controlada de um antigo armazém industrial em área urbana densa. O planeamento detalhado e a implementação de técnicas de desconstrução asseguraram a segurança total do ambiente circundante.
+                Especializados em operações de demolição seguras e precisas na região de Choupana Hills. A nossa equipa utiliza técnicas avançadas e equipamento moderno para garantir a remoção controlada de estruturas, minimizando riscos e impacto ambiental. Priorizamos a segurança de pessoas e propriedades em cada projeto.
               </p>
             </div>
           </motion.div>
@@ -713,66 +713,6 @@ const rentalMachines = [
       </div>
     </motion.section>
 
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={slideInLeft}
-      className="py-16 lg:py-24 bg-be-50" // Mudei o fundo para um cinza claro para diferenciar
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Título Principal e Parágrafo de Introdução */}
-        <motion.h2 variants={itemFadeIn} className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
-          Aluguer de Máquinas
-        </motion.h2>
-        <motion.p variants={itemFadeIn} className="text-xl text-blue-700 max-w-3xl mx-auto mb-12">
-          Disponibilizamos uma vasta gama de <strong>máquinas e equipamentos</strong> para os seus projetos, garantindo <strong>eficiência</strong>, <strong>segurança</strong> e as melhores <strong>soluções</strong> para cada necessidade.
-        </motion.p>
-        
-
-        {/* Grelha de Máquinas de Aluguer */}
-        <motion.div variants={slideInLeft} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {rentalMachines.map((machine, index) => (
-            <motion.div
-              key={index}
-              variants={itemFadeIn}
-              className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all duration-300 group "
-            >
-              <div className="aspect-w-16 aspect-h-9 h-48 overflow-hidden justify-center">
-                <img
-                  src={machine.image}
-                  alt={`Imagem da máquina: ${machine.title}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{machine.title}</h3>
-                <p className="text-gray-600">{machine.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Chamadas para Ação (Botões) */}
-        <motion.div variants={itemFadeIn} className="flex flex-col sm:flex-row justify-center gap-6 mt-12 mb-16">
-          <Link
-            to="/aluguer-maquinas" // Link para a página de aluguer de máquinas
-            className="bg-blue-600 text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-blue-800 transition-all inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-          >
-            Ver Catálogo de Máquinas
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
-          <Link
-            to="/contacto" // Link para a página de contacto ou solicitação de orçamento de aluguer
-            className="bg-blue-700 text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-yellow-500 transition-all inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-          >
-            Pedir Orçamento para alugar
-          </Link>
-        </motion.div>
-      </div>
-    </motion.section>
-    
 
       {/* Features Section (Slide In from Right) */}
       <motion.section
@@ -952,7 +892,7 @@ const rentalMachines = [
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={slideInLeft}
-        className="py-12 bg-blue-900 text-white text-center"
+        className="py-12 bg-blue-600 text-white text-center"
       >
         <motion.h2 variants={itemFadeIn} className="text-2xl md:text-3xl font-bold mb-6">
           Pronto para avançar com o seu projeto?

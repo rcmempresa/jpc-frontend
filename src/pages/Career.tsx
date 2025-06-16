@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, Clock, Users, Award, Send, Upload, User, Mail, Phone, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion'; // Importar motion e AnimatePresence
+import { useInView } from 'react-intersection-observer'; // Importar useInView
 
 const Career = () => {
   const [selectedJob, setSelectedJob] = useState<number | null>(null);
@@ -38,13 +40,13 @@ const Career = () => {
     }
   };
 
-  // Dados das vagas de emprego
+  // Dados das vagas de emprego (Mantidos como estavam)
   const jobs = [
     {
       id: 1,
       title: 'Operador de Corte de Betão',
       department: 'Operações',
-      location: 'Lisboa',
+      location: 'Madeira, Funchal',
       type: 'Tempo Inteiro',
       experience: '2-5 anos',
       description: 'Procuramos operador experiente para trabalhos de corte de betão com equipamentos profissionais.',
@@ -104,7 +106,7 @@ const Career = () => {
       id: 3,
       title: 'Coordenador de Obra',
       department: 'Gestão',
-      location: 'Lisboa',
+      location: 'Madeira, Funchal',
       type: 'Tempo Inteiro',
       experience: '5+ anos',
       description: 'Coordenador experiente para gestão e supervisão de obras de corte e furação de betão.',
@@ -134,7 +136,7 @@ const Career = () => {
       id: 4,
       title: 'Comercial Júnior',
       department: 'Vendas',
-      location: 'Lisboa',
+      location: 'Madeira, Funchal',
       type: 'Tempo Inteiro',
       experience: '1-3 anos',
       description: 'Profissional de vendas para desenvolvimento de negócio na área da construção.',
@@ -162,7 +164,7 @@ const Career = () => {
     },
   ];
 
-  // Dados dos benefícios da empresa
+  // Dados dos benefícios da empresa (Mantidos como estavam)
   const benefits = [
     {
       icon: Award,
@@ -181,7 +183,6 @@ const Career = () => {
     },
   ];
 
-  // Lida com a mudança nos campos de texto do formulário
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setApplicationData({
       ...applicationData,
@@ -189,19 +190,39 @@ const Career = () => {
     });
   };
 
-  // Define a vaga selecionada e preenche o jobId no estado da aplicação
   const handleJobApplication = (jobId: number) => {
     setSelectedJob(jobId);
     setApplicationData({ ...applicationData, jobId });
+    // Garantir que a rolagem da página é desativada quando o modal abre
+    document.body.style.overflow = 'hidden';
   };
 
-  // Lida com a submissão do formulário de candidatura
+  // Função para fechar o modal e reativar a rolagem
+  const closeApplicationModal = () => {
+    setSelectedJob(null);
+    document.body.style.overflow = 'auto';
+    setStatus(null); // Limpa o status de envio ao fechar o modal
+    setCvFile(null); // Limpa o ficheiro CV selecionado
+    setCvError(null); // Limpa o erro do CV
+    setApplicationData({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      jobId: 0,
+    });
+  };
+
   const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (cvError) {
       alert(cvError);
       return;
+    }
+    if (!cvFile) {
+        setStatus('❌ Por favor, anexe o seu CV.');
+        return;
     }
 
     const formData = new FormData();
@@ -215,13 +236,11 @@ const Career = () => {
       formData.append('cv', cvFile);
     }
 
-    // --- MOVEI O LOG PARA AQUI ---
     console.log('Conteúdo do FormData ANTES do envio:');
     for (let pair of formData.entries()) {
         console.log(pair[0]+ ': ' + pair[1]);
     }
-    // --- FIM DO LOG MOVIDO ---
-    console.log(formData);
+    
     setStatus('Enviando...');
 
     try {
@@ -230,53 +249,128 @@ const Career = () => {
         body: formData,
       });
 
-      console.log(formData);
-      console.log('Resposta do Backend (objeto):', response); // Melhor renomear para evitar confusão
-      // ... restante do código para lidar com a resposta ...
+      console.log('Resposta do Backend (objeto):', response); 
 
       if (response.ok) {
         setStatus('✅ Sua mensagem foi enviada com sucesso! Entraremos em contacto o mais breve possível.');
+        // Limpar o formulário após o sucesso
+        setApplicationData({ name: '', email: '', phone: '', message: '', jobId: 0 });
+        setCvFile(null);
+        // Não fechar o modal imediatamente para o usuário ver a mensagem de sucesso
       } else {
-        setStatus('❌ Ocorreu um erro ao enviar a mensagem. Tente novamente mais tarde.');
+        const errorData = await response.json();
+        console.error('Erro na resposta do backend:', errorData);
+        setStatus(`❌ Ocorreu um erro ao enviar a mensagem: ${errorData.message || 'Erro desconhecido.'}`);
       }
     } catch (error) {
       console.error('Erro na requisição:', error);
-      alert('Não foi possível conectar ao servidor. Tente novamente mais tarde.');
+      setStatus('❌ Não foi possível conectar ao servidor. Tente novamente mais tarde.');
     }
   };
 
+  // --- Variantes de animação ---
+  const slideInLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const slideInRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemFadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  // Variante para o modal e seu conteúdo
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: "easeOut" } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2, ease: "easeIn" } },
+  };
+
+  const modalContentStagger = {
+    visible: {
+      transition: {
+        delayChildren: 0.1,
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const formFieldItem = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  // --- Hooks para cada seção que queremos animar (usando useInView) ---
+  const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { ref: benefitsRef, inView: benefitsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { ref: jobsRef, inView: jobsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-16 lg:py-24">
+      <motion.section
+        ref={heroRef}
+        initial="hidden"
+        animate={heroInView ? "visible" : "hidden"}
+        variants={slideInLeft}
+        className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-16 lg:py-24"
+      >
         <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <motion.h1 variants={itemFadeIn} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Junte-se à Nossa <span className="text-blue-300">Equipa</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p variants={itemFadeIn} className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
               Construa a sua carreira connosco. Oferecemos oportunidades de desenvolvimento em ambiente profissional.
-            </p>
+            </motion.p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Benefits Section */}
-      <section className="py-16 lg:py-24 bg-white">
+      <motion.section
+        ref={benefitsRef}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="py-16 lg:py-24 bg-white"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={slideInRight} className="text-center mb-12">
+            <motion.h2 variants={itemFadeIn} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Porquê Trabalhar Connosco?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p variants={itemFadeIn} className="text-xl text-gray-600 max-w-3xl mx-auto">
               Oferecemos um ambiente de trabalho estimulante com excelentes oportunidades de crescimento.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            </motion.p>
+          </motion.div>
+          <motion.div variants={slideInLeft} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={itemFadeIn} // Cada benefício entra com um fade-in
                 className="text-center p-6 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors"
               >
                 <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -284,45 +378,54 @@ const Career = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Jobs Section */}
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <motion.section
+        ref={jobsRef}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="py-16 lg:py-24 bg-gray-50"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <motion.div variants={slideInLeft} className="text-center mb-12">
+            <motion.h2 variants={itemFadeIn} className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Vagas Disponíveis
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p variants={itemFadeIn} className="text-xl text-gray-600 max-w-3xl mx-auto">
               Explore as nossas oportunidades de carreira e candidate-se às posições que mais se adequam ao seu perfil.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {jobs.map((job) => (
-              <div
+            {jobs.map((job, index) => (
+              <motion.div
                 key={job.id}
+                variants={index % 2 === 0 ? slideInRight : slideInLeft} // Alterna animação esquerda/direita para os cartões
                 className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{job.title}</h3>
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <motion.h3 variants={itemFadeIn} className="text-2xl font-bold text-gray-900 mb-2">{job.title}</motion.h3>
+                    <motion.div variants={itemFadeIn} className="flex flex-wrap gap-2 mb-3">
                       <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
                         {job.department}
                       </span>
                       <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
                         {job.type}
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
-                  <Briefcase className="h-8 w-8 text-blue-600" />
+                  <motion.div variants={itemFadeIn}>
+                    <Briefcase className="h-8 w-8 text-blue-600" />
+                  </motion.div>
                 </div>
 
-                <div className="space-y-3 mb-4">
+                <motion.div variants={itemFadeIn} className="space-y-3 mb-4">
                   <div className="flex items-center text-gray-600">
                     <MapPin className="h-4 w-4 mr-2" />
                     <span>{job.location}</span>
@@ -331,167 +434,184 @@ const Career = () => {
                     <Clock className="h-4 w-4 mr-2" />
                     <span>Experiência: {job.experience}</span>
                   </div>
-                </div>
+                </motion.div>
 
-                <p className="text-gray-700 mb-6">{job.description}</p>
+                <motion.p variants={itemFadeIn} className="text-gray-700 mb-6">{job.description}</motion.p>
 
                 <div className="space-y-4">
-                  <div>
+                  <motion.div variants={itemFadeIn}>
                     <h4 className="font-semibold text-gray-900 mb-2">Requisitos:</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
                       {job.requirements.slice(0, 3).map((req, index) => (
-                        <li key={index} className="flex items-center">
+                        <motion.li key={index} variants={itemFadeIn} className="flex items-center">
                           <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2"></span>
                           {req}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
 
-                  <button
+                  <motion.button
                     onClick={() => handleJobApplication(job.id)}
+                    variants={itemFadeIn} // O botão também tem um fade-in
                     className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
                   >
                     <Send className="mr-2 h-4 w-4" />
                     Candidatar-me
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Application Modal */}
-      {selectedJob && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Candidatura - {jobs.find(j => j.id === selectedJob)?.title}
-                </h2>
-                <button
-                  onClick={() => setSelectedJob(null)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  ✕
-                </button>
-              </div>
+      <AnimatePresence>
+        {selectedJob && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={modalVariants}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              variants={modalContentStagger} // Aplica a animação escalonada ao conteúdo do modal
+              className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <motion.h2 variants={formFieldItem} className="text-2xl font-bold text-gray-900">
+                    Candidatura - {jobs.find(j => j.id === selectedJob)?.title}
+                  </motion.h2>
+                  <motion.button
+                    onClick={closeApplicationModal}
+                    variants={formFieldItem}
+                    className="text-gray-400 hover:text-gray-600 text-3xl leading-none" // Adicionei 'text-3xl leading-none' para o 'x'
+                  >
+                    &times;
+                  </motion.button>
+                </div>
 
-              <form onSubmit={handleSubmitApplication} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+                <form onSubmit={handleSubmitApplication} className="space-y-6">
+                  <motion.div variants={formFieldItem} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <User className="inline h-4 w-4 mr-1" />
+                        Nome Completo *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={applicationData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="O seu nome completo"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <Mail className="inline h-4 w-4 mr-1" />
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        value={applicationData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="seu.email@exemplo.com"
+                      />
+                    </div>
+                  </motion.div>
+
+                  <motion.div variants={formFieldItem}>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <User className="inline h-4 w-4 mr-1" />
-                      Nome Completo *
+                      <Phone className="inline h-4 w-4 mr-1" />
+                      Telefone *
                     </label>
                     <input
-                      type="text"
-                      name="name"
+                      type="tel"
+                      name="phone"
                       required
-                      value={applicationData.name}
+                      value={applicationData.phone}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="O seu nome completo"
+                      placeholder="+351 xxx xxx xxx"
                     />
-                  </div>
-                  <div>
+                  </motion.div>
+
+                  <motion.div variants={formFieldItem}>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <Mail className="inline h-4 w-4 mr-1" />
-                      Email *
+                      <FileText className="inline h-4 w-4 mr-1" />
+                      Carta de Motivação
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={applicationData.email}
+                    <textarea
+                      name="message"
+                      rows={4}
+                      value={applicationData.message}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="seu.email@exemplo.com"
+                      placeholder="Descreva brevemente a sua motivação e experiência relevante..."
                     />
-                  </div>
-                </div>
+                  </motion.div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Phone className="inline h-4 w-4 mr-1" />
-                    Telefone *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    value={applicationData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="+351 xxx xxx xxx"
-                  />
-                </div>
+                  <motion.div variants={formFieldItem} className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                    <p className="text-gray-600 mb-2">Anexar CV (PDF, máx. 10MB)</p>
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      className="hidden"
+                      id="cv-upload"
+                      onChange={handleCvChange}
+                    />
+                    <label
+                      htmlFor="cv-upload"
+                      className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors"
+                    >
+                      {cvFile ? cvFile.name : 'Escolher Ficheiro'}
+                    </label>
+                    {cvError && (
+                      <p className="text-red-500 text-sm mt-2">{cvError}</p>
+                    )}
+                  </motion.div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FileText className="inline h-4 w-4 mr-1" />
-                    Carta de Motivação
-                  </label>
-                  <textarea
-                    name="message"
-                    rows={4}
-                    value={applicationData.message}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Descreva brevemente a sua motivação e experiência relevante..."
-                  />
-                </div>
-
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-600 mb-2">Anexar CV (PDF, máx. 5MB)</p>
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    className="hidden"
-                    id="cv-upload"
-                    onChange={handleCvChange}
-                  />
-                  <label
-                    htmlFor="cv-upload"
-                    className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors"
-                  >
-                    {cvFile ? cvFile.name : 'Escolher Ficheiro'}
-                  </label>
-                  {cvError && (
-                    <p className="text-red-500 text-sm mt-2">{cvError}</p>
-                  )}
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedJob(null)}
-                    className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
-                  >
-                    <Send className="mr-2 h-4 w-4" />
-                    Enviar Candidatura
-                  </button>
+                  <motion.div variants={formFieldItem} className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={closeApplicationModal}
+                      className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
+                    >
+                      <Send className="mr-2 h-4 w-4" />
+                      Enviar Candidatura
+                    </button>
+                  </motion.div>
                   {/* Status de envio */}
                   {status && (
-                    <div className={`text-center mt-4 ${status.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
-                    {status}
-                  </div>            
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`text-center mt-4 ${status.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}
+                    >
+                        {status}
+                    </motion.div>            
                   )}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
