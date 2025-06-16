@@ -141,9 +141,9 @@ const Services = () => {
       try {
         // Apenas chamadas API para mainServices, additionalServices e certifications
         const [mainRes, additionalRes, certRes] = await Promise.all([
-          fetch('http://localhost:3000/api/servicos/main'),
-          fetch('http://localhost:3000/api/servicos/additional'),
-          fetch('http://localhost:3000/api/servicos/certifications'),
+          fetch(`${import.meta.env.VITE_BACKEND_URL}api/servicos/main`),
+          fetch(`${import.meta.env.VITE_BACKEND_URL}api/servicos/additional`),
+          fetch(`${import.meta.env.VITE_BACKEND_URL}certifications`),
         ]);
 
         if (!mainRes.ok || !additionalRes.ok || !certRes.ok) {
