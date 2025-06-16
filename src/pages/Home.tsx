@@ -566,12 +566,12 @@ const rentalMachines = [
 
         {/* Botão de Chamada para Ação */}
         <motion.div variants={itemFadeIn} className="mt-16 flex justify-center space-x-4">
-          <a href="/portfolio" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-md">
+         <Link to="/portfolio" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-md">
             Ver Todos os Projetos
-          </a>
-          <a href="/contacto" className="ml-6 px-7 py-3 rounded-full bg-white text-blue-700 font-bold text-lg shadow-xl hover:bg-yellow-300 hover:text-blue-900 hover:scale-105 transition-all duration-300 ease-in-out transform relative overflow-hidden group">
+          </Link>
+          <Link to="/contacto" className="ml-6 px-7 py-3 rounded-full bg-white text-blue-700 font-bold text-lg shadow-xl hover:bg-yellow-300 hover:text-blue-900 hover:scale-105 transition-all duration-300 ease-in-out transform relative overflow-hidden group">
             Solicitar Orçamento
-          </a>
+          </Link>
         </motion.div>
       </div>
     </motion.section>
