@@ -32,7 +32,7 @@ const Contact = () => {
     setStatus('Enviando...');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contacto/enviar`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/contacto/enviar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

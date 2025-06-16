@@ -90,7 +90,7 @@ const MachineRental = () => {
     try {
       // --- ESTA É A ALTERAÇÃO CHAVE ---
       // Use o URL completo do seu endpoint de backend
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/rentals/add`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/rentals/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
