@@ -251,84 +251,83 @@ const rentalMachines = [
     <div className="space-y-0 overflow-x-hidden">
       {/* Hero Section */}
       <section
-        className="relative text-white py-20 lg:py-32 bg-gradient-to-br from-blue-900 via-blue-900 to-blue-900"
+        className="relative text-white py-20 lg:py-32 bg-gradient-to-br from-blue-900 via-blue-900 to-blue-900 pt-32 pb-32 sm:pt-20 sm:pb-20" // Ajuste de padding aqui
         style={{
           backgroundImage: `url(${slides[currentSlide].src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-70"></div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black opacity-70"></div>
 
-      {/* Botões de navegação */}
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10 hidden md:block"
-        aria-label="Slide anterior"
-      >
-        <ChevronLeft className="h-6 w-6 text-white" />
-      </button>
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10"
-        aria-label="Próximo slide"
-      >
-        <ChevronRight className="h-6 w-6 text-white" />
-      </button>
-
-      {/* Indicadores de Slide (bolinhas) */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-white w-6' : 'bg-gray-400'
-            }`}
-            aria-label={`Ir para o slide ${index + 1}`}
-          ></button>
-        ))}
-      </div>
-
-
-      {/* Conteúdo com animação */}
-      <AnimatePresence mode="wait"> {/* Use AnimatePresence para gerir a saída e entrada dos slides */}
-        <motion.div
-          key={currentSlide} // Mudar a key faz com que a animação seja reexecutada para cada slide
-          initial="hidden" // Estado inicial definido por heroContentVariants
-          animate="visible" // Estado final definido por heroContentVariants
-          exit="hidden" // Para animar a saída (volta para o estado hidden)
-          variants={heroContentVariants} // Aplica as variantes de container
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+        {/* Botões de navegação */}
+        <button
+          onClick={() => setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10 hidden md:block" // hidden em mobile, block em md
+          aria-label="Slide anterior"
         >
-          <motion.h1 variants={heroItemVariants} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            {slides[currentSlide].title}
-          </motion.h1>
-          <motion.p variants={heroItemVariants} className="text-xl md:text-2xl text-white mb-4 max-w-3xl mx-auto">
-            {slides[currentSlide].description}
-          </motion.p>
-          <motion.p variants={heroItemVariants} className="text-2xl font-bold text-blue-300 mb-8">
-            8 ANOS DE EXPERIÊNCIA
-          </motion.p>
-          <motion.div variants={heroItemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/contacto"
-              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center justify-center group"
-            >
-              Pedir Orçamento
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              to="/servicos"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-900 transition-colors inline-flex items-center justify-center"
-            >
-              Ver Serviços
-            </Link>
+          <ChevronLeft className="h-6 w-6 text-white" />
+        </button>
+        <button
+          onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10 hidden md:block" // hidden em mobile, block em md
+          aria-label="Próximo slide"
+        >
+          <ChevronRight className="h-6 w-6 text-white" />
+        </button>
+
+        {/* Indicadores de Slide (bolinhas) */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                index === currentSlide ? 'bg-white w-6' : 'bg-gray-400'
+              }`}
+              aria-label={`Ir para o slide ${index + 1}`}
+            ></button>
+          ))}
+        </div>
+
+        {/* Conteúdo com animação */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={heroContentVariants}
+            className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-20" // Adicionado z-20 aqui
+          >
+            <motion.h1 variants={heroItemVariants} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              {slides[currentSlide].title}
+            </motion.h1>
+            <motion.p variants={heroItemVariants} className="text-xl md:text-2xl text-white mb-4 max-w-3xl mx-auto">
+              {slides[currentSlide].description}
+            </motion.p>
+            <motion.p variants={heroItemVariants} className="text-2xl font-bold text-blue-300 mb-8">
+              8 ANOS DE EXPERIÊNCIA
+            </motion.p>
+            <motion.div variants={heroItemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/contacto"
+                className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center justify-center group"
+              >
+                Pedir Orçamento
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/servicos"
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-900 transition-colors inline-flex items-center justify-center"
+              >
+                Ver Serviços
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </AnimatePresence>
-    </section>
+        </AnimatePresence>
+      </section>
 
 
     {/* Sobre Nós Section (Slide In from Right) */}
