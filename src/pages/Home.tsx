@@ -579,7 +579,7 @@ const rentalMachines = [
       <motion.section
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={slideInRight}
         className="py-16 bg-blue-200"
     >
@@ -614,7 +614,7 @@ const rentalMachines = [
     <motion.section
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.2 }}
       variants={slideInLeft}
       className="py-16 lg:py-24 bg-white"
     >
@@ -717,7 +717,7 @@ const rentalMachines = [
       <motion.section
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={slideInRight}
         className="py-16 lg:py-24 bg-blue-200"
       >
@@ -754,7 +754,7 @@ const rentalMachines = [
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.1 }}
         variants={slideInLeft}
         className="mb-12"
       >
