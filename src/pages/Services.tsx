@@ -143,7 +143,7 @@ const Services = () => {
         const [mainRes, additionalRes, certRes] = await Promise.all([
           fetch(`${import.meta.env.VITE_BACKEND_URL}api/servicos/main`),
           fetch(`${import.meta.env.VITE_BACKEND_URL}api/servicos/additional`),
-          fetch(`${import.meta.env.VITE_BACKEND_URL}certifications`),
+          fetch(`${import.meta.env.VITE_BACKEND_URL}api/servicos/certifications`),
         ]);
 
         if (!mainRes.ok || !additionalRes.ok || !certRes.ok) {
