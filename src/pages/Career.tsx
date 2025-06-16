@@ -244,7 +244,7 @@ const Career = () => {
     setStatus('Enviando...');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/candidatura/enviar`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/candidatura/enviar`, {
         method: 'POST',
         body: formData,
       });
