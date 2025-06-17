@@ -51,12 +51,13 @@ const Services = () => {
   const [equipment] = useState([
     {
       id: 101,
-      name: "Máquina de Furação Diamantada HILTI DLP 15",
+      name: "Máquina de Corte Diamantada HILTI DLP 15",
       description: "Equipamento robusto e de alta performance para furação diamantada precisa em diversos materiais de construção.",
       image_url: "/cortadora_1_servicos.png",
       video_url: null,
       features: [
         "Tensão Nominal: Corrente Trifásica 380 a 400 V",
+        "Motor Hidráulico",
         "Corrente Nominal - proteção de rede: 32 A",
         "Velocidade Nominal: 400 rpm a 940 rpm",
         "Frequência da rede: 50 Hz a 60 Hz",
@@ -100,7 +101,7 @@ const Services = () => {
     },
     {
      id: 103,
-      name: "Cortadora de Betão Mikasa MCD-218",
+      name: "Cortadora de pavimentos Mikasa MCD-218",
       description: "Cortadora de pavimento robusta e fácil de manusear, perfeita para cortes em asfalto e betão, garantindo precisão e eficiência.",
       image_url: "/cortadora_mikasa_servicos.png",
       video_url: null,
@@ -108,6 +109,8 @@ const Services = () => {
         "Profundidade de corte: 20 cm",
         "Motor: A Gasolina",
         "Ajuste para profundidade de corte: Sistema de parafuso de elevação manual",
+        "Corta: Betão armado, asfalto e basalto",
+        "Apropriada para corte de asfalto e betão pouco armado(pavimento com malhasol ou malha simples)",
         "Tanque de água: 45 Litros"
       ],
       example_video_urls: [
