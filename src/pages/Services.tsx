@@ -134,6 +134,24 @@ const Services = () => {
         "https://www.youtube.com/embed/xpxxDBrKJZA"
       ]
     },
+    {
+      id: 105,
+      name: "Máquina de Furação Triférica",
+      description: "É uma máquina masi potente, ideal para furação de diâmetros grandes",
+      image_url: "/DRU60.png",
+      video_url: null,
+      features: [
+        "Corrente Elétrica: Monofásica 220 V",
+        "Furação: Vertical, horizontal e oblíqua até 45º",
+        "Perfurações de núcleo até 500 mm",
+        "Motor potente de 5,2 kW na rede trifásica de 400V",
+        "Câmbio de 3 velocidades em banho de óleo, embregaem de sobrecarga e bomba de óleo"
+      ],
+      example_video_urls: [
+        "https://www.youtube.com/embed/hV_n52ehTUQ", 
+        "https://www.youtube.com/embed/xpxxDBrKJZA"
+      ]
+    },
   ]);
   // --- Fim dos Dados de Vídeos e Equipamentos ---
 
