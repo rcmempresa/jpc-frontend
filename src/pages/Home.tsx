@@ -532,7 +532,8 @@ const rentalMachines = [
             <div className="p-4">
               <h3 className="font-semibold text-gray-800 text-xl">Furacão para substituição de parafusos de fixação dos cabeços de atraco de navios</h3>
               <p className="text-gray-600 mt-2">
-               Serviço especializado de furação para a substituição segura e eficaz dos parafusos de fixação em cabeços de atracação de navios. Garantimos a integridade estrutural e a segurança das operações portuárias.
+               Serviço especializado de furação para a substituição segura e eficaz dos parafusos de 
+               fixação em cabeços de atracação de navios. A furação foi executada com coroas de 1metro de comprimento, garantindo a integridade estrutural e a segurança das operações portuárias.
               </p>
             </div>
           </motion.div>
