@@ -138,7 +138,7 @@ const Services = () => {
       id: 105,
       name: "Máquina de Furação Triférica",
       description: "É uma máquina masi potente, ideal para furação de diâmetros grandes",
-      image_url: "/DRU60.png",
+      image_url: "/DRU160.png",
       video_url: null,
       features: [
         "Corrente Elétrica: Monofásica 220 V",
