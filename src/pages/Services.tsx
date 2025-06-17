@@ -181,7 +181,7 @@ const Services = () => {
         "Visor de Óleo: Um visor de óleo grande e de fácil visualização permite que o técnico monitore rapidamente o nível e a condição do óleo"
       ],
       example_video_urls: [
-        "https://www.youtube.com/embed/qDpRDDqWFNE"
+        ""
       ]
     },
   ]);
