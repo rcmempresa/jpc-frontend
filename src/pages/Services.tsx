@@ -155,7 +155,7 @@ const Services = () => {
       id: 106,
       name: "Suporte de taladro DRU160",
       description: "O DRU160 é O PESO LEVE entre os suportes de perfuração de até Ø 160 mm. O sistema de pescoço de fixação padrão permite montar rapidamente os motores de perfuração habituais.",
-      image_url: "/DRU160.png",
+      image_url: "/Suporte.png",
       video_url: null,
       features: [
         "Leveza: É classificado como o PESO LEVE na sua categoria.",
@@ -163,6 +163,22 @@ const Services = () => {
         "Montagem Rápida: Possui um sistema de pescoço de fixação padrão que permite montar rapidamente os motores de perfuração comuns.",
         "Otimização de Tempo: Ajuda a economizar tempo valioso durante a instalação da coluna de perfuração.",
         "Flexibilidade de Aplicação: Permite fixação com bucha ou a vácuo, aumentando as opções de uso."
+      ],
+      example_video_urls: [
+        "https://www.youtube.com/embed/qDpRDDqWFNE"
+      ]
+    },
+    {
+      id: 107,
+      name: "Bomba de Vácuo VPE600",
+      description: "A bomba de vácuo remove o ar entre a placa e a superfície, criando uma forte pressão negativa. Essa diferença de pressão suga a placa contra a superfície, fixando a máquina de forma segura e estável.",
+      image_url: "/Bomba_de_vacuo.png",
+      video_url: null,
+      features: [
+        "Alto Desempenho: A VPE600 é uma bomba de vácuo de estágio único com uma impressionante taxa de fluxo de 170 litros por minuto (6 CFM).",
+        "Vácuo Profundo: É capaz de atingir um vácuo máximo de 25 mícrons.",
+        "Portas de Entrada Múltiplas: Possui entradas de 1/4 e 3/8 (Flare)",
+        "Visor de Óleo: Um visor de óleo grande e de fácil visualização permite que o técnico monitore rapidamente o nível e a condição do óleo"
       ],
       example_video_urls: [
         "https://www.youtube.com/embed/qDpRDDqWFNE"
