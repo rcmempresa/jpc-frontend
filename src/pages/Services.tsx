@@ -148,7 +148,7 @@ const Services = () => {
         "Câmbio de 3 velocidades em banho de óleo, embregaem de sobrecarga e bomba de óleo"
       ],
       example_video_urls: [
-        "https://www.youtube.com/watch?v=qDpRDDqWFNE"
+        "https://www.youtube.com/embed/qDpRDDqWFNE"
       ]
     },
   ]);
