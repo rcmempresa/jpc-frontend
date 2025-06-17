@@ -151,6 +151,23 @@ const Services = () => {
         "https://www.youtube.com/embed/qDpRDDqWFNE"
       ]
     },
+    {
+      id: 106,
+      name: "Suporte de taladro DRU160",
+      description: "O DRU160 é O PESO LEVE entre os suportes de perfuração de até Ø 160 mm. O sistema de pescoço de fixação padrão permite montar rapidamente os motores de perfuração habituais.",
+      image_url: "/DRU160.png",
+      video_url: null,
+      features: [
+        "Leveza: É classificado como o PESO LEVE na sua categoria.",
+        "Capacidade de Perfuração: Suporta perfurações de até Ø 160 mm.",
+        "Montagem Rápida: Possui um sistema de pescoço de fixação padrão que permite montar rapidamente os motores de perfuração comuns.",
+        "Otimização de Tempo: Ajuda a economizar tempo valioso durante a instalação da coluna de perfuração.",
+        "Flexibilidade de Aplicação: Permite fixação com bucha ou a vácuo, aumentando as opções de uso."
+      ],
+      example_video_urls: [
+        "https://www.youtube.com/embed/qDpRDDqWFNE"
+      ]
+    },
   ]);
   // --- Fim dos Dados de Vídeos e Equipamentos ---
 
