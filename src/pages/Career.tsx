@@ -76,7 +76,7 @@ const Career = () => {
       id: 2,
       title: 'Técnico de Furação',
       department: 'Operações',
-      location: 'Porto',
+      location: 'Madeira,Funchal',
       type: 'Tempo Inteiro',
       experience: '3+ anos',
       description: 'Técnico especializado em furação de precisão para instalações técnicas e ancoragens.',
