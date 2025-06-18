@@ -14,7 +14,7 @@ const Header = () => {
     { name: 'Aluguer de Máquinas', href: '/aluguer-maquinas' },
   ];
 
-  const facebookUrl = 'https://www.facebook.com/profile.php?id=100064182873984';
+  const facebookUrl = 'https://www.facebook.com/jpcrodrigues95';
   const phoneNumber = '+351913823499';
   const address = 'Estrada da vitória nº63, Funchal';
   const googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Estrada+da+vitória+nº63,+Funchal';
