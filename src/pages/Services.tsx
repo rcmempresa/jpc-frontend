@@ -393,7 +393,7 @@ const Services = () => {
           ref={equipmentRef}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1}}
           className="py-16 lg:py-24 bg-white"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
