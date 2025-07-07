@@ -5,26 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect } from 'react';
 
 
-const slides = [
-  {
-    title: 'Corte e Furação de Betão Profissional',
-    description: 'Serviços especializados com tecnologia avançada e equipa experiente.',
-    src: '/corte_furacao.jpg', // Certifique-se que esta imagem está otimizada
-    alt: 'Trabalhadores da JPC Rodrigues a realizar corte em betão', // Alt text adicionado
-  },
-  {
-    title: 'Demolição Controlada e Segura',
-    description: 'Técnicas que garantem eficiência e segurança em cada projeto.',
-    src: '/demolicao_controlada.webp', // Certifique-se que esta imagem está otimizada
-    alt: 'Demolição controlada de estrutura de betão', // Alt text adicionado
-  },
-  {
-    title: 'Equipamentos Modernos e Certificados',
-    description: 'Garantia de qualidade e segurança em todos os trabalhos.',
-    src: '/equipamento.jpg', // Certifique-se que esta imagem está otimizada
-    alt: 'Equipamentos modernos de corte e furação de betão', // Alt text adicionado
-  },
-];
+// REMOVIDO: 'slides' não será mais necessário para a seção Hero com vídeo.
+// const slides = [
+//   {
+//     title: 'Corte e Furação de Betão Profissional',
+//     description: 'Serviços especializados com tecnologia avançada e equipa experiente.',
+//     src: '/corte_furacao.jpg',
+//     alt: 'Trabalhadores da JPC Rodrigues a realizar corte em betão',
+//   },
+//   {
+//     title: 'Demolição Controlada e Segura',
+//     description: 'Técnicas que garantem eficiência e segurança em cada projeto.',
+//     src: '/demolicao_controlada.webp',
+//     alt: 'Demolição controlada de estrutura de betão',
+//   },
+//   {
+//     title: 'Equipamentos Modernos e Certificados',
+//     description: 'Garantia de qualidade e segurança em todos os trabalhos.',
+//     src: '/equipamento.jpg',
+//     alt: 'Equipamentos modernos de corte e furação de betão',
+//   },
+// ];
 
 
 const Home = () => {
@@ -115,18 +116,19 @@ const faqs = [
   ];
 
 
-const [currentSlide, setCurrentSlide] = useState(0); // Hero section
+//const [currentSlide, setCurrentSlide] = useState(0); // Hero section
 const [currentTestimonial, setCurrentTestimonial] = useState(0); // Testemunhos
 const [openFaq, setOpenFaq] = useState(null); // Estado para gerir qual FAQ está aberto
 
 
-// Auto-slide Hero section
-useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, 3000); // 3 segundos
-  return () => clearInterval(interval);
-}, [slides.length]); // Dependência adicionada para evitar warnings
+// REMOVIDO: Auto-slide Hero section não é mais necessário.
+// useEffect(() => {
+//   const interval = setInterval(() => {
+//     setCurrentSlide((prev) => (prev + 1) % slides.length);
+//   }, 3000); // 3 segundos
+//   return () => clearInterval(interval);
+// }, [slides.length]); // Dependência adicionada para evitar warnings
+
 
 // Auto-slide Testemunhos
 useEffect(() => {
@@ -171,28 +173,33 @@ const itemFadeIn = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }, // Mais rápido
 };
 
-// Novas variantes para a secção Hero
 const heroContentVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
+    y: 0,
     transition: {
-      staggerChildren: 0.2, // Atraso entre os elementos filhos (frases)
-      delayChildren: 0.3, // Atraso antes do primeiro filho começar a animar
+      delay: 0.5, // Atraso para o conteúdo aparecer após o vídeo
+      staggerChildren: 0.2,
     },
   },
 };
 
 const heroItemVariants = {
-  hidden: { opacity: 0, x: 100 }, // Começa da direita
+  hidden: { opacity: 0, y: 50 }, // Entra de baixo
   visible: {
     opacity: 1,
-    x: 0,
+    y: 0,
     transition: {
-      duration: 0.6, // Duração da animação individual
+      duration: 0.7,
       ease: "easeOut",
     },
   },
+};
+
+const videoVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 1.5, ease: "easeOut" } }, // Transição mais suave para o vídeo
 };
 
 // Nova variante para a imagem na seção de vídeos (vem da esquerda)
@@ -249,84 +256,80 @@ const rentalMachines = [
   return (
     // Adicionado overflow-x-hidden para prevenir scroll horizontal indesejado
     <div className="space-y-0 overflow-x-hidden">
-      {/* Hero Section */}
-      <section
-        className="relative text-white py-20 lg:py-32 bg-gradient-to-br from-blue-900 via-blue-900 to-blue-900 pt-32 pb-32 sm:pt-20 sm:pb-20" // Ajuste de padding aqui
-        style={{
-          backgroundImage: `url(${slides[currentSlide].src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black opacity-70"></div>
-
-        {/* Botões de navegação */}
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10 hidden md:block" // hidden em mobile, block em md
-          aria-label="Slide anterior"
+      {/* Hero Section com Vídeo */}
+      <section className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden">
+        {/* O vídeo será o fundo */}
+        <motion.video
+          key="hero-video" // Key para ajudar o AnimatePresence
+          initial="hidden"
+          animate="visible"
+          variants={videoVariants}
+          autoPlay
+          loop
+          muted
+          playsInline // Essencial para autoplay em dispositivos móveis
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          poster="/corte_furacao.jpg" // Imagem de fallback caso o vídeo não carregue
         >
-          <ChevronLeft className="h-6 w-6 text-white" />
-        </button>
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-800 p-3 rounded-full transition-colors z-10 hidden md:block" // hidden em mobile, block em md
-          aria-label="Próximo slide"
-        >
-          <ChevronRight className="h-6 w-6 text-white" />
-        </button>
+          {/* SUBSTITUA ESTE CAMINHO PELO SEU VÍDEO REAL */}
+          <source src="/seu_video_hero.mp4" type="video/mp4" />
+          {/* Pode adicionar outras fontes para compatibilidade de navegador */}
+          {/* <source src="/seu_video_hero.webm" type="video/webm" /> */}
+          Seu navegador não suporta a tag de vídeo.
+        </motion.video>
 
-        {/* Indicadores de Slide (bolinhas) */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-white w-6' : 'bg-gray-400'
-              }`}
-              aria-label={`Ir para o slide ${index + 1}`}
-            ></button>
-          ))}
-        </div>
+        {/* Overlay Escuro para Legibilidade do Texto */}
+        <div className="absolute inset-0 bg-black opacity-70 z-10"></div>
 
-        {/* Conteúdo com animação */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={heroContentVariants}
-            className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-20" // Adicionado z-20 aqui
-          >
-            <motion.h1 variants={heroItemVariants} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              {slides[currentSlide].title}
-            </motion.h1>
-            <motion.p variants={heroItemVariants} className="text-xl md:text-2xl text-white mb-4 max-w-3xl mx-auto">
-              {slides[currentSlide].description}
-            </motion.p>
-            <motion.p variants={heroItemVariants} className="text-2xl font-bold text-blue-300 mb-8">
-              8 ANOS DE EXPERIÊNCIA
-            </motion.p>
-            <motion.div variants={heroItemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contacto"
-                className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center justify-center group"
+        {/* Conteúdo da Hero Section com Animação */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-20">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="hero-content"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={heroContentVariants}
+            >
+              <motion.h1
+                variants={heroItemVariants}
+                className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg"
               >
-                Pedir Orçamento
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                to="/servicos"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-900 transition-colors inline-flex items-center justify-center"
+                Especialistas em Corte e Demolição de Betão
+              </motion.h1>
+              <motion.p
+                variants={heroItemVariants}
+                className="text-xl md:text-2xl text-blue-100 mb-4 max-w-4xl mx-auto drop-shadow-md"
               >
-                Ver Serviços
-              </Link>
+                Com mais de **8 anos de experiência**, garantimos **precisão, segurança** e **eficiência** em cada projeto na Madeira e Porto Santo.
+              </motion.p>
+              <motion.p
+                variants={heroItemVariants}
+                className="text-2xl md:text-3xl font-bold text-blue-300 mb-8 drop-shadow-md"
+              >
+                SUA OBRA EM BOAS MÃOS.
+              </motion.p>
+              <motion.div
+                variants={heroItemVariants}
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+              >
+                <Link
+                  to="/contacto"
+                  className="bg-blue-600 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-blue-800 transition-all duration-300 inline-flex items-center justify-center shadow-lg transform hover:scale-105"
+                >
+                  Pedir Orçamento Gratuito
+                  <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/servicos"
+                  className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300 inline-flex items-center justify-center shadow-lg transform hover:scale-105"
+                >
+                  Nossos Serviços
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </section>
 
 
