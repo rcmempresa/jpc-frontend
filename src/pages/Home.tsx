@@ -272,7 +272,7 @@ const rentalMachines = [
           poster="/corte_furacao.jpg" // Imagem de fallback caso o vídeo não carregue
         >
           {/* SUBSTITUA ESTE CAMINHO PELO SEU VÍDEO REAL */}
-          <source src="/seu_video_hero.mp4" type="video/mp4" />
+          <source src="/video_hero.mp4" type="video/mp4" />
           {/* Pode adicionar outras fontes para compatibilidade de navegador */}
           {/* <source src="/seu_video_hero.webm" type="video/webm" /> */}
           Seu navegador não suporta a tag de vídeo.
