@@ -301,7 +301,7 @@ const rentalMachines = [
                 variants={heroItemVariants}
                 className="text-xl md:text-2xl text-blue-100 mb-4 max-w-4xl mx-auto drop-shadow-md"
               >
-                Com mais de **8 anos de experiência**, garantimos **precisão, segurança** e **eficiência** em cada projeto na Madeira e Porto Santo.
+                Com mais de <strong>8 anos de experiência</strong>, garantimos <strong>precisão</strong>, <strong>segurança </strong> e <strong>eficiência</strong> em cada projeto na Madeira e Porto Santo.
               </motion.p>
               <motion.p
                 variants={heroItemVariants}
